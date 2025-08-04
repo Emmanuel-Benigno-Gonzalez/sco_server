@@ -3,6 +3,10 @@
 require('dotenv').config();
 const path = require('path');
 
+/*
+
+// ====> VERSION LOCAL
+
 module.exports = {
   development: {
     username: process.env.DB_USER,
@@ -20,6 +24,22 @@ module.exports = {
   }
 };
 
+*/
+
+// ====> VERSION NUBE
+
+module.exports = {
+  development: {
+    use_env_variable: 'DATABASE_URL',
+    dialect: 'mysql',
+    migrationStorageTableName: 'migraciones'
+  },
+  paths: {
+    migrations: path.resolve(__dirname, '../migrations/20250803215022-add-tipo_motor-to-aeronave.js'),
+    seeders: path.resolve(__dirname, '../seeders'),
+    models: path.resolve(__dirname, '../src/models'),
+  }
+};
 
 /* Comando para Crear Atchivo de Configuracion de la Migración
  -> npx sequelize-cli migration:generate --name add-correo-to-usuario
