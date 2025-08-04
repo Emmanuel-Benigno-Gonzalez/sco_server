@@ -64,14 +64,9 @@ class Aeronave extends Model {
     declare largo: number
 
     @Column({
-        type: DataType.INTEGER()
+        type: DataType.STRING(50)
     })
-    declare no_motores: number
-
-    @Column({
-        type: DataType.STRING(100)
-    })
-    declare mo_motores: string
+    declare tipo_motor: string
 }
 
 export default Aeronave
