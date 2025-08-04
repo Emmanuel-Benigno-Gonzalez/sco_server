@@ -14,26 +14,18 @@ export const handleInputErrors: RequestHandler = ( req: Request, res: Response, 
     next()
 }
 
-export function validateEntityExists<T extends Model>(
-  model: ModelStatic<T>,
+export const validateEntityExists = (
+  model: ModelStatic<Model<any, any>>,
   field: string,
   alias?: string
-): RequestHandler {
+): RequestHandler => {
   return async (req, res, next) => {
     try {
-      //const id = req.body[field];
-      const id = req.body[field] ?? req.params[field] ?? req.query[field];
-      
-      if (id === undefined || id === null || id === '') {
-        return res.status(404).json({
-          message: `El campo '${alias || field}' es obligatorio`,
-        });
-      }
-
+      const id = req.body[field];
       const record = await model.findByPk(id);
 
       if (!record) {
-        res.status(404).json({ message: `${alias || field} no existe` });
+        res.status(400).json({ message: `${alias || field} no existe` });
         return;
       }
 
@@ -43,5 +35,5 @@ export function validateEntityExists<T extends Model>(
       res.status(500).json({ message: `Error validando ${alias || field}` });
     }
   };
-}
+};
 

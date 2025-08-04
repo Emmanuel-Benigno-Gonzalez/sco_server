@@ -10,13 +10,6 @@ class Usuario extends Model {
     @Column(DataType.INTEGER())
     declare id_usuario: number
 
-    /*@Column({
-        type: DataType.STRING(100),
-        allowNull: true,
-        unique: true
-    })
-    declare email: string*/
-
     @Column({
         type: DataType.STRING(40),
         allowNull: false
@@ -51,11 +44,6 @@ class Usuario extends Model {
         type: DataType.STRING(40),
     })
     declare descripcion: string
-
-    @Column({
-        type: DataType.INTEGER(),
-    })
-    declare token_password: number
 
     @BeforeCreate
     static asignarDescripcion(instance: Usuario) {

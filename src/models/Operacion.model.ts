@@ -308,6 +308,31 @@ class Operacion extends Model {
         }
     }
 
+    /*
+    @BeforeCreate
+    static validarHoras(instance: Operacion) {
+        const parseTime = (t: string) => {
+            const [h, m, s] = t.split(':').map(Number);
+            return h * 3600 + m * 60 + (s || 0);
+        };
+
+        if (instance.hora_calzos && instance.hora_real) {
+            const calzos = parseTime(instance.hora_calzos);
+            const real = parseTime(instance.hora_real);
+            if (calzos <= real) {
+                throw new Error('Hora de Calzos debe ser mayor que Hora Real');
+            }
+        }
+
+        if (instance.hora_finOps && instance.hora_calzos) {
+            const fin = parseTime(instance.hora_finOps);
+            const calzos = parseTime(instance.hora_calzos);
+            if (fin <= calzos) {
+                throw new Error('Hora de Fin de Operacion debe ser mayor que Hora Calzos');
+            }
+        }
+    }*/
+
     static validarFechas(instance: Operacion) {
         if (instance.fecha_finOps && instance.fecha_iniOps) {
             const fin = new Date(instance.fecha_finOps).getTime();
@@ -328,10 +353,35 @@ class Operacion extends Model {
 
     @BeforeUpdate
     static beforeUpdateHook(instance: Operacion) {
-        Operacion.setDefaults(instance);
         this.validarHoras(instance);
         Operacion.validarFechas(instance);
     }
+
+    /*
+    @BeforeUpdate
+    static validarHorasUpdate(instance: Operacion) {
+        const parseTime = (t: string) => {
+            const [h, m, s] = t.split(':').map(Number);
+            return h * 3600 + m * 60 + (s || 0);
+        };
+
+        if (instance.hora_calzos && instance.hora_real) {
+            const calzos = parseTime(instance.hora_calzos);
+            const real = parseTime(instance.hora_real);
+            if (calzos <= real) {
+                throw new Error('Hora Calzos debe ser mayor que Hora Real');
+            }
+        }
+
+        if (instance.hora_finOps && instance.hora_calzos) {
+            const fin = parseTime(instance.hora_finOps);
+            const calzos = parseTime(instance.hora_calzos);
+            if (fin <= calzos) {
+                throw new Error('Hora de Fin de Operacion debe ser mayor que Hora Calzos');
+            }
+        }
+    }*/
+
 
 }
 
