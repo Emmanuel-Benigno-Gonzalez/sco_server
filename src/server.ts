@@ -40,6 +40,11 @@ const server = express()
 server.use(cors(corsOptions))
 server.use(express.json())
 
+server.get('/', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
+
 server.use('/api/ops/operacion', opsRoutes)
 server.use('/api/ops/aeronave', aeronaveRoutes)
 server.use('/api/ops/aeropuerto', aeropuertoRoutes)
