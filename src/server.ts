@@ -9,12 +9,12 @@ import calificadorRoutes from './routes/calificadorRoutes'
 import matriculaRoutes from './routes/matriculaRoutes'
 import db from "./config/db"
 import cors from 'cors'
-import { corsOptions } from '../src/config/cors'
+import { corsOptions } from './config/cors'
 
 async function connectDB() {
     try {
         await db.authenticate()
-        db.sync()
+        await db.sync()
         console.log( colors.magenta.bold('Conexion Exitosa a la DB') )
     } catch (error) {
         console.log(error)
