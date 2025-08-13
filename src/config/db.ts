@@ -3,7 +3,7 @@ import { DB_DATABASE, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DATABASE_URL } fro
 
 //const db = DATABASE_URL
 const db = process.env.DATABASE_URL
-  ? new Sequelize(DATABASE_URL, {
+  ? new Sequelize(process.env.DATABASE_URL, {
       models: [__dirname + '/../models/**/*.ts'],
       dialect: 'mysql', // o el que uses
       dialectOptions: {
