@@ -6,7 +6,7 @@ import Usuario from '../models/Usuario.model'
 
 const router = Router()
 
-router.post('/login',
+router.get('/login',
     validateEntityExists(Usuario, 'id_usuario', 'Usuario'),
     login
 )
