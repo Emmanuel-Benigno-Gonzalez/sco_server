@@ -11,7 +11,7 @@ router.post('/login',
     login
 )
 
-router.post('/create-account', 
+router.post('/create', 
     authValidators,
     handleInputErrors,
     createAccount

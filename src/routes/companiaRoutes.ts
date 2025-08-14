@@ -7,7 +7,7 @@ router.get('/', (req, res)  => {
     res.json('Desde GET')
 })
 
-router.post('/', createCompania)
+router.post('/create', createCompania)
 
 router.put('/', (req, res)  => {
     res.json('Desde PUT')
