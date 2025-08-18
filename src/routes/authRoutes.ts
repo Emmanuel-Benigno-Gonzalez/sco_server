@@ -6,6 +6,11 @@ import Usuario from '../models/Usuario.model'
 
 const router = Router()
 
+router.get('/prueba', (req, res) => {
+  res.json({ status: 'Desde Auth' });
+});
+
+
 router.get('/login',
     validateEntityExists(Usuario, 'id_usuario', 'Usuario'),
     login
