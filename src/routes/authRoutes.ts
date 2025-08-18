@@ -1,4 +1,4 @@
-import { Router } from 'express'
+import { Router, Request, Response } from 'express'
 import { createAccount, login } from '../controllers/Auth.controller'
 import { authValidators } from '../middleware/authValidation'
 import { handleInputErrors, validateEntityExists } from '../middleware/indexValidation'
@@ -6,8 +6,8 @@ import Usuario from '../models/Usuario.model'
 
 const router = Router()
 
-router.get('/prueba', (req, res) => {
-  res.json({ status: 'Desde Auth' });
+router.post('/prueba', (req: Request, res: Response) => {
+  res.json({ status: 'Desde Auth', req });
 });
 
 
