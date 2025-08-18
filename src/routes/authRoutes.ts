@@ -11,7 +11,7 @@ router.get('/login',
     login
 )
 
-router.get('/create', 
+router.post('/create', 
     authValidators,
     handleInputErrors,
     createAccount

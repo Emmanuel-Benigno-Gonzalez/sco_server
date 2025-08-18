@@ -2,7 +2,7 @@
   "name": "sco-server",
   "version": "1.0.0",
   "description": "server sco con Express y Typescript",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "node ./dist/index.js",
