@@ -6,7 +6,7 @@ import Usuario from '../models/Usuario.model'
 
 const router = Router()
 
-router.post('/prueba', (req: Request, res: Response) => {
+router.get('/prueba', (req: Request, res: Response) => {
   res.json({ status: req.body.id_usuario });
 });
 
