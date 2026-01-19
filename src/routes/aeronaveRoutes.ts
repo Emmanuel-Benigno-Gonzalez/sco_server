@@ -1,11 +1,11 @@
 import { Router } from 'express'
-import { createAeronave } from '../controllers/Aeronave.controller'
+import { createAeronave, getAeronave, getAeronaveById } from '../controllers/Aeronave.controller'
 
 const router = Router()
 
-router.get('/', (req, res)  => {
-    res.json('Desde GET')
-})
+router.get('/', getAeronave)
+
+router.get('/:id_aeronave', getAeronaveById)
 
 router.post('/', createAeronave)
 

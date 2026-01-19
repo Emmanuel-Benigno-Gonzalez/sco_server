@@ -4,7 +4,7 @@ import { body } from 'express-validator';
 
 export const authenticate = (req: Request, res: Response, next: NextFunction): void => {
   // ⚠️ Esto es temporal, simula un usuario logueado
-  req.body.id_usuario = 100; // Reemplaza con el ID de prueba que prefieras
+  req.body.id_usuario = 500; // Reemplaza con el ID de prueba que prefieras
   next();
 };
 

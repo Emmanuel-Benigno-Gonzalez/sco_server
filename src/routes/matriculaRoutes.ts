@@ -1,11 +1,9 @@
 import { Router } from 'express'
-import { createMatricula } from '../controllers/Matricula.controller'
+import { createMatricula, getMatricula } from '../controllers/Matricula.controller'
 
 const router = Router()
 
-router.get('/', (req, res)  => {
-    res.json('Desde GET')
-})
+router.get('/', getMatricula)
 
 router.post('/', createMatricula)
 

@@ -2,10 +2,9 @@ import { request, Request, Response } from 'express'
 import { Op } from 'sequelize';
 import Operacion from '../models/Operacion.model'
 import { procesarOperaciones } from '../utils/opsHelper';
-import Matricula from '../models/Matricula.model';
-import Aeronave from '../models/Aeronave.model';
+import ItinerarioComercial from '../models/Itinerario.model';
 
-export const getOperacion = async (req: Request, res: Response) => {
+export const getItinerario = async (req: Request, res: Response) => {
 
     try {
         const operacion = await Operacion.findAll({
@@ -19,7 +18,7 @@ export const getOperacion = async (req: Request, res: Response) => {
 
 }
 
-export const getOperacionById = async (req: Request, res: Response) => {
+export const getItinerarioById = async (req: Request, res: Response) => {
 
     try {
         const { id_ops } = req.params;
@@ -36,24 +35,7 @@ export const getOperacionById = async (req: Request, res: Response) => {
     
 }
 
-export const getOperacionTokenL = async (req: Request, res: Response) => {
-
-    try {
-        const { id_ops } = req.params;
-
-        const operacion = await Operacion.findAll({
-         where: { token_finOps: 0, tipo_mov: "LL" },
-        });
-
-        res.json({ data: operacion })
-
-    } catch (error) {
-        console.log(error)
-    }
-    
-}
-
-export const getOpsByDate = async (req: Request, res: Response) => {
+export const getItiByDate = async (req: Request, res: Response) => {
   const { fecha_inicial, fecha_final } = req.query;
 
   try {
@@ -114,10 +96,10 @@ export const getOpsByDate = async (req: Request, res: Response) => {
   }
 };
 
-export const createOperacion = async (req: Request, res: Response) => {
+export const createItinerario = async (req: Request, res: Response) => {
 
     try {
-        const operacion = await Operacion.create(req.body)
+        const itinerario = await ItinerarioComercial.create(req.body)
         //res.json({ data: operacion })
         res.status(200).json({ message: "Registro creado exitosamente" });
     } catch (error) {
@@ -126,7 +108,7 @@ export const createOperacion = async (req: Request, res: Response) => {
     }
 }
 
-export const updateOperacionById = async (req: Request, res: Response) => {
+export const updateItinerarioById = async (req: Request, res: Response) => {
   try {
     const { id_ops } = req.params;
 
@@ -143,7 +125,7 @@ export const updateOperacionById = async (req: Request, res: Response) => {
 };
 
 
-export const deleteOperacion = async (req: Request, res: Response) => {
+export const deleteItinerario = async (req: Request, res: Response) => {
 
   try {
       const { id_ops } = req.params
@@ -154,38 +136,6 @@ export const deleteOperacion = async (req: Request, res: Response) => {
 
       res.json({ data: 'Operación Eliminada' })
     
-  } catch (error) {
-    console.log(error)
-  }
-
-}
-
-export const getLlegadasPendientes = async (req: Request, res: Response) => {
-
-  try {
-    const operacion = await Operacion.findAll({
-        where: {
-          tipo_mov: "LL",
-          token_finOps: 0
-        }
-    })
-    res.json({ data: operacion })
-  } catch (error) {
-    console.log(error)
-  }
-
-}
-
-export const getSalidasPendientes = async (req: Request, res: Response) => {
-
-  try {
-    const operacion = await Operacion.findAll({
-        where: {
-          tipo_mov: "S",
-          token_finOps: 0
-        }
-    })
-    res.json({ data: operacion })
   } catch (error) {
     console.log(error)
   }

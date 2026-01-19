@@ -41,7 +41,7 @@ class Operacion extends Model {
     declare id_matricula: string
 
     @Column({
-        type: DataType.STRING(1),
+        type: DataType.STRING(2),
         allowNull: false
     })
     declare tipo_mov: string
@@ -60,31 +60,35 @@ class Operacion extends Model {
     declare fecha_iniOps: Date
 
     @Column({
-        type: DataType.DATE()
+        type: DataType.DATE(),
+        //defaultValue: DataType.NOW
     })
     declare fecha_finOps: Date
 
     @Column({
-        type: DataType.TIME(),
+        type: DataType.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+    })
+    declare token_finOps: number;
+
+    @Column({
+        type: DataType.DATE(),
         allowNull: false
     })
-    declare hora_iti: string
+    declare fecha_iti: Date
 
-    @Column({
-        type: DataType.TIME(),
-        allowNull: false
+    /*@Column({
+        type: DataType.DATE(),
     })
-    declare hora_real: string
+    declare fecha_calzos: Date*/
 
-    @Column({
-        type: DataType.TIME(),
+    /*@Column({
+        type: DataType.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
     })
-    declare hora_calzos: string
-
-    @Column({
-        type: DataType.TIME(),
-    })
-    declare hora_finOps: string
+    declare token_calzos: number;*/
 
     @ForeignKey(() => Compania)
     @Column({
@@ -92,6 +96,12 @@ class Operacion extends Model {
         allowNull: false
     })
     declare id_compania: string
+
+    @Column({
+        type: DataType.STRING(2),
+        allowNull: false
+    })
+    declare tipo_plataforma: string
 
     @Column({
         type: DataType.STRING(20),
@@ -243,34 +253,28 @@ class Operacion extends Model {
 
     @BeforeCreate
     static async setDefaults(instance: Operacion) {
-        const addMinutes = (time: string, minutes: number): string => {
-            const [h, m, s] = time.split(':').map(Number);
-            const date = new Date(0, 0, 0, h, m, s || 0);
-            date.setMinutes(date.getMinutes() + minutes);
-            return date.toTimeString().slice(0, 8);
+        const addMinutes = (date: Date, minutes: number): Date => {
+            const d = new Date(date);
+            d.setMinutes(d.getMinutes() + minutes);
+            return d;
         };
 
-        // Hora_Calzos = Hora_Real + 5 min
-        if (!instance.hora_calzos && instance.hora_real) {
-            instance.hora_calzos = addMinutes(instance.hora_real, 5);
-        }
+        // fecha_calzos = fecha_iniOps + 5 min
+        //if (!instance.fecha_calzos && instance.fecha_iniOps) {
+        //    instance.fecha_calzos = addMinutes(instance.fecha_iniOps, 5);
+        //}
 
-        // hora_finOps = hora_calzos + 5 min
-        if (!instance.hora_finOps && instance.hora_calzos) {
-            instance.hora_finOps = addMinutes(instance.hora_calzos, 5);
-        }
-
-        // fecha_finOps = fecha_iniOps si no se especifica
+        // fecha_finOps = fecha_calzos + 5 min
         if (!instance.fecha_finOps && instance.fecha_iniOps) {
-            instance.fecha_finOps = instance.fecha_iniOps;
+            instance.fecha_finOps = addMinutes(instance.fecha_iniOps, 5);
         }
 
-        // Campos string a ''
+        // Valores por defecto de cadenas
         instance.posicion = instance.posicion ?? '';
         instance.correo = instance.correo ?? '';
         instance.observaciones = instance.observaciones ?? '';
 
-        // Campos numéricos a 0
+        // Valores por defecto numéricos
         const numFields = [
             'puerta', 'banda', 'adulto_nac', 'infante_nac', 'transito_nac',
             'conexion_nac', 'excento_nac', 'adulto_int', 'infante_int',
@@ -285,52 +289,38 @@ class Operacion extends Model {
         }
     }
 
-    static validarHoras(instance: Operacion) {
-        const parseTime = (t: string) => {
-            const [h, m, s] = t.split(':').map(Number);
-            return h * 3600 + m * 60 + (s || 0);
-        };
 
-        if (instance.hora_calzos && instance.hora_real) {
-            const calzos = parseTime(instance.hora_calzos);
-            const real = parseTime(instance.hora_real);
-            if (calzos <= real) {
-                throw new Error('Hora_Calzos debe ser mayor que Hora_Real');
+    /*static validarFechas(instance: Operacion) {
+        if (instance.fecha_calzos && instance.fecha_iniOps) {
+            if (instance.fecha_calzos.getTime() <= instance.fecha_iniOps.getTime()) {
+                throw new Error('Fecha_Calzos debe ser mayor que Fecha_IniOps');
             }
         }
 
-        if (instance.hora_finOps && instance.hora_calzos) {
-            const fin = parseTime(instance.hora_finOps);
-            const calzos = parseTime(instance.hora_calzos);
-            if (fin <= calzos) {
-                throw new Error('Fin_OPS debe ser mayor que Hora_Calzos');
+        if (instance.fecha_finOps && instance.fecha_calzos) {
+            if (instance.fecha_finOps.getTime() <= instance.fecha_calzos.getTime()) {
+                throw new Error('Fecha_FinOps debe ser mayor que Fecha_Calzos');
             }
         }
-    }
 
-    static validarFechas(instance: Operacion) {
         if (instance.fecha_finOps && instance.fecha_iniOps) {
-            const fin = new Date(instance.fecha_finOps).getTime();
-            const ini = new Date(instance.fecha_iniOps).getTime();
-            if (fin < ini) {
+            if (instance.fecha_finOps.getTime() < instance.fecha_iniOps.getTime()) {
                 throw new Error('Fecha de Fin de Operacion debe ser mayor o igual que Fecha de Inicio de Operacion');
             }
         }
-    }
+    }*/
 
     @BeforeCreate
     static async beforeCreateHook(instance: Operacion) {
         await Operacion.generateIdOps(instance);
         Operacion.setDefaults(instance);
-        Operacion.validarHoras(instance);
-        Operacion.validarFechas(instance);   
+        //Operacion.validarFechas(instance);   
     }
 
     @BeforeUpdate
     static beforeUpdateHook(instance: Operacion) {
         Operacion.setDefaults(instance);
-        this.validarHoras(instance);
-        Operacion.validarFechas(instance);
+        //Operacion.validarFechas(instance);
     }
 
 }

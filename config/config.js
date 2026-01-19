@@ -30,12 +30,12 @@ module.exports = {
 
 module.exports = {
   development: {
-    use_env_variable: 'DATABASE_URL',
+    use_env_variable: 'DATABASE_URL_MIGRATIONS',
     dialect: 'mysql',
     migrationStorageTableName: 'migraciones'
   },
   paths: {
-    migrations: path.resolve(__dirname, '../migrations/20250803215022-add-tipo_motor-to-aeronave.js'),
+    migrations: path.resolve(__dirname, '../migrations/20250901181629-upd-fechas-to-operacion.js'),
     seeders: path.resolve(__dirname, '../seeders'),
     models: path.resolve(__dirname, '../src/models'),
   }

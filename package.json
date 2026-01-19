@@ -2,13 +2,13 @@
   "name": "sco-server",
   "version": "1.0.0",
   "description": "server sco con Express y Typescript",
-  "main": "dist/index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "tsc",
-    "start": "node ./dist/index.js",
-    "postinstall": "npm run build",
     "dev": "nodemon --exec ts-node src/index.ts",
     "dev:api": "nodemon --exec ts-node src/index.ts --api",
+    "build": "tsc",
+    "postinstall": "npm run build",
+    "start": "node ./dist/index.js",
     "migrate": "npx sequelize-cli db:migrate --config config/config.js",
     "generate:migration": "npx sequelize-cli migration:generate --name nombre-migracion --config config/config.js --migrations-path src/database/migrations"
   },
