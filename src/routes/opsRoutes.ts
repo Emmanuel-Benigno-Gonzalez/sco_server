@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { createOperacion, deleteOperacion, getLlegadasPendientes, getOperacion, getOperacionById, getOperacionTokenL, getOpsByDate, getSalidasPendientes, updateOperacionById } from '../controllers/Operacion.controller'
+import { createOperacion, deleteOperacion, getLlegadasPendientes, getOperacion, getOperacionById, getOperacionTokenL, getOpsByDate, getSalidasPendientes, postUltimaLlegada, updateOperacionById } from '../controllers/Operacion.controller'
 import { handleInputErrors, validateEntityExists } from '../middleware/indexValidation'
 import { authenticate } from '../middleware/authValidation'
 import { operacionValidators, validateCalficadorComercial, validateCicloTipoMov, validateFechaFinOps, validateLlegadaConSalida, validateLlegadaTA, validateSalidaPernocta, validateTiempoMinimo, validateTipoMov, validateTokenFechaFinOps, ValidatorsFechaFinOps } from '../middleware/opsValidation'
@@ -17,7 +17,7 @@ const router = Router()
 //router.get('/:id_ops', getOperacionById)
 router.get('/1/llegadasPendientes', getLlegadasPendientes)
 router.get('/salidasPendientes', getSalidasPendientes)
-//router.get('/', getOpsByDate)
+router.get('/', getOpsByDate)
 
 router.post('/',
     operacionValidators,
@@ -44,6 +44,11 @@ router.post('/itinerario',
     validateEntityExists(Compania, 'id_compania', 'Aerolinea/FBO'),
     validateCicloTipoMov,
     createItinerario)
+
+router.post('/ultimaLlegada',
+    validateEntityExists(Matricula, 'id_matricula', 'Matrícula'),
+    postUltimaLlegada
+)
 
 router.put('/:id_ops',
     validateEntityExists(Operacion, 'id_ops', 'Operacion'),

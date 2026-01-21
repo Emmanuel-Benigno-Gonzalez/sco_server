@@ -1,5 +1,5 @@
 import { request, Request, Response } from 'express'
-import { Op } from 'sequelize';
+import { Op, WhereOptions } from 'sequelize';
 import Operacion from '../models/Operacion.model'
 import { procesarOperaciones } from '../utils/opsHelper';
 import Matricula from '../models/Matricula.model';
@@ -32,8 +32,7 @@ export const getOperacionById = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.log(error)
-    }
-    
+    }    
 }
 
 export const getOperacionTokenL = async (req: Request, res: Response) => {
@@ -49,8 +48,7 @@ export const getOperacionTokenL = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.log(error)
-    }
-    
+    }    
 }
 
 export const getOpsByDate = async (req: Request, res: Response) => {
@@ -190,4 +188,25 @@ export const getSalidasPendientes = async (req: Request, res: Response) => {
     console.log(error)
   }
 
+}
+
+export const postUltimaLlegada = async (req: Request, res: Response) => {
+  try {
+    const { id_matricula } = req.body
+
+    const whereClause: WhereOptions<Operacion> = { id_matricula };
+    const operacion = await Operacion.findOne({
+      where: whereClause,
+      order: [['fecha_iniOps', 'DESC']],
+    });
+
+    if (operacion.tipo_mov === "LL"){
+      res.json({ data: operacion })
+    } else {
+      res.json({ data: [] })
+    }
+
+  } catch (error) {
+    console.log(error)
+  }
 }
