@@ -37,7 +37,7 @@ export const authValidators = [
   body('nombre').notEmpty().withMessage("El campo nombre es obligatorio"),
   body('ap_paterno').notEmpty().withMessage("El campo apellido paterno es obligatorio"),
   body('ap_materno').notEmpty().withMessage("El campo apellido materno es obligatorio"),
-  body('password').notEmpty().withMessage("El campo password es obligatorio"),
+  body('password').isLength({min: 8}).withMessage("El campo password es muy corto, minimo 8 caracteres"),
   body('tipo_usuario').notEmpty().withMessage("El campo el tipo de usuario es obligatorio"),
 ];
 

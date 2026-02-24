@@ -26,17 +26,6 @@ connectDB()
 
 const server = express()
 
-// Permitir Conexiones
-/*const corsOptions: CorsOptions = {
-    origin: function(origin, callback){
-        if(origin === FRONTEND_URL){
-            callback(null, true)
-        }else {
-            callback(new Error('Error de Cors'))
-        }
-    }
-}*/
-
 server.use(cors(corsOptions))
 server.use(express.json())
 server.use(express.urlencoded({ extended: true }));

@@ -15,7 +15,7 @@ const router = Router()
 
 //router.get('/', getOperacion)
 //router.get('/:id_ops', getOperacionById)
-router.get('/1/llegadasPendientes', getLlegadasPendientes)
+router.get('/llegadasPendientes', getLlegadasPendientes)
 router.get('/salidasPendientes', getSalidasPendientes)
 router.get('/', getOpsByDate)
 
@@ -65,7 +65,7 @@ router.put('/:id_ops',
 
 router.put('/fecha_finOps/:id_ops', 
     validateEntityExists(Operacion, 'id_ops', 'Operacion'),
-    authenticate,
+    //authenticate,
     ValidatorsFechaFinOps,
     handleInputErrors,
     validateFechaFinOps,

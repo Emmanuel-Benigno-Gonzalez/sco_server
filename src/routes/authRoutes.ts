@@ -10,8 +10,7 @@ router.post('/prueba', (req: Request, res: Response) => {
   res.json({ status: req.body.id_usuario });
 });
 
-
-router.get('/login',
+router.post('/login',
     validateEntityExists(Usuario, 'id_usuario', 'Usuario'),
     login
 )
