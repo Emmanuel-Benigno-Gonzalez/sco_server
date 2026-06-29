@@ -2,34 +2,40 @@
 import { Request, Response, NextFunction } from 'express';
 import { body } from 'express-validator';
 
-export const authenticate = (req: Request, res: Response, next: NextFunction): void => {
+/*export const authenticate = (req: Request, res: Response, next: NextFunction): void => {
   // ⚠️ Esto es temporal, simula un usuario logueado
   req.body.id_usuario = 500; // Reemplaza con el ID de prueba que prefieras
   next();
-};
+};*/
 
-/*
+
 // middleware/addUserId.ts (versión futura con JWT)
-import { Request, Response, NextFunction } from 'express';
+//import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 
-export const addUserId = (req: Request, res: Response, next: NextFunction) => {
+export const authenticate = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
-
+  
   if (!authHeader) {
     return res.status(401).json({ message: 'No token provided' });
   }
 
   const token = authHeader.split(' ')[1];
+  console.log('Authorization Header:', token);
+
 
   try {
-    const decoded = jwt.verify(token, 'TU_SECRETO') as { id: number };
-    req.body.id_usuario = decoded.id;
+    console.log(process.env.JWT_SECRET)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET) as { id_usuario: number };
+    //const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.body.id_usuario = decoded.id_usuario; // Asigna el ID del usuario al cuerpo de la solicitud
+    //req.body.id_usuario = 500;
+    console.log(decoded)
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Token inválido' });
   }
-};*/
+};
 
 export const authValidators = [
   body('id_usuario').notEmpty().withMessage("El campo id es obligatorio"),

@@ -56,7 +56,7 @@ export const login = async (req: Request, res: Response) => {
             tipo_usuario: user.tipo_usuario 
         })
 
-        console.log(token)
+        //console.log(token)
 
         res.status(200).json(token);
     } catch (error) {

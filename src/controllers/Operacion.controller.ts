@@ -4,6 +4,8 @@ import Operacion from '../models/Operacion.model'
 import { procesarOperaciones } from '../utils/opsHelper';
 import Matricula from '../models/Matricula.model';
 import Aeronave from '../models/Aeronave.model';
+import Auditoria from '../models/Auditoria.model';
+import { obtenerCambios, registrarAuditoria } from '../services/auditoria.service';
 
 export const getOperacion = async (req: Request, res: Response) => {
 
@@ -116,6 +118,15 @@ export const createOperacion = async (req: Request, res: Response) => {
 
     try {
         const operacion = await Operacion.create(req.body)
+        
+        await Auditoria.create({
+            id_usuario: req.body.id_usuario,
+            tabla_afectada: 'operaciones',
+            id_registro: String(operacion.id_ops),
+            action: 'CREATE',
+            ip: req.ip
+        });
+
         //res.json({ data: operacion })
         res.status(200).json({ message: "Registro creado exitosamente" });
     } catch (error) {
@@ -124,7 +135,7 @@ export const createOperacion = async (req: Request, res: Response) => {
     }
 }
 
-export const updateOperacionById = async (req: Request, res: Response) => {
+/*export const updateOperacionById = async (req: Request, res: Response) => {
   try {
     const { id_ops } = req.params;
 
@@ -138,8 +149,60 @@ export const updateOperacionById = async (req: Request, res: Response) => {
     console.error(error);
     res.status(500).json({ error: 'Error al actualizar la operación' });
   }
-};
+};*/
 
+export const updateOperacionById = async (
+    req: Request,
+    res: Response
+) => {
+    try {
+
+        const { id_ops } = req.params;
+
+        const operacion = await Operacion.findByPk(id_ops);
+
+        if (!operacion) {
+            return res.status(404).json({
+                message: 'Operación no encontrada'
+            });
+        }
+
+        const datosAnteriores = operacion.toJSON();
+
+        await operacion.update(req.body);
+
+        const datosActualizados = operacion.toJSON();
+
+        const cambios = obtenerCambios(
+            datosAnteriores,
+            datosActualizados
+        );
+
+        if (Object.keys(cambios).length > 0) {
+
+            await registrarAuditoria({
+                id_usuario: req.body.id_usuario, // ajusta según tu autenticación
+                tabla_afectada: 'operaciones',
+                id_registro: String(id_ops),
+                action: 'UPDATE',
+                cambios,
+                ip: req.ip
+            });
+        }
+
+        res.status(200).json({
+            message: 'Operación actualizada correctamente'
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            message: 'Error al actualizar la operación'
+        });
+    }
+};
 
 export const deleteOperacion = async (req: Request, res: Response) => {
 
