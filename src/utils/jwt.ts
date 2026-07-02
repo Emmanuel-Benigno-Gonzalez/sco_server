@@ -9,7 +9,7 @@ type JWTPayload = {
 export const generateJWT = (payload: JWTPayload) => {
     //const token = jwt.sign(payload, JWT_SECRET!, {
     const token = jwt.sign(payload, process.env.JWT_SECRET!, {
-        expiresIn: '2min'
+        expiresIn: '2h'
     });
     return token;
 };
