@@ -42,4 +42,5 @@ server.use('/api/ops/compania', companiaRoutes)
 server.use('/api/ops/calificador', calificadorRoutes)
 server.use('/api/ops/matricula', matriculaRoutes)
 
+
 export default server
