@@ -15,9 +15,18 @@ const router = Router()
 
 //router.get('/', getOperacion)
 //router.get('/:id_ops', getOperacionById)
-router.get('/llegadasPendientes', getLlegadasPendientes)
-router.get('/salidasPendientes', getSalidasPendientes)
-router.get('/', getOpsByDate)
+router.get('/llegadasPendientes',
+    authenticate,
+    getLlegadasPendientes
+)
+router.get('/salidasPendientes', 
+    authenticate,
+    getSalidasPendientes
+)
+router.get('/', 
+    authenticate,
+    getOpsByDate
+)
 
 router.post('/',
     operacionValidators,
@@ -46,11 +55,13 @@ router.post('/itinerario',
     createItinerario)
 
 router.post('/ultimaLlegada',
+    authenticate,
     validateEntityExists(Matricula, 'id_matricula', 'Matrícula'),
     postUltimaLlegada
 )
 
 router.put('/:id_ops',
+    authenticate,
     validateEntityExists(Operacion, 'id_ops', 'Operacion'),
     operacionValidators,
     authenticate,
@@ -63,7 +74,8 @@ router.put('/:id_ops',
     updateOperacionById
 )
 
-router.put('/fecha_finOps/:id_ops', 
+router.put('/fecha_finOps/:id_ops',
+    authenticate, 
     validateEntityExists(Operacion, 'id_ops', 'Operacion'),
     //authenticate,
     ValidatorsFechaFinOps,
@@ -73,6 +85,7 @@ router.put('/fecha_finOps/:id_ops',
 )
 
 router.delete('/:id_ops',
+    authenticate,
     validateEntityExists(Operacion, 'id_ops', 'Operacion'),
     handleInputErrors,
     deleteOperacion
