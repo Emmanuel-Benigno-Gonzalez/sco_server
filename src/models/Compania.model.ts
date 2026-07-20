@@ -2,7 +2,9 @@ import { Table, Column, Model, DataType, PrimaryKey } from 'sequelize-typescript
 
 
 @Table({
-    tableName: 'compania'
+    tableName: 'compania',
+    createdAt: false,
+    updatedAt: false,
 })
 
 class Compania extends Model {

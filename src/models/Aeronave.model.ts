@@ -1,7 +1,9 @@
 import { Table, Column, DataType, Model, PrimaryKey } from 'sequelize-typescript'
 
 @Table({
-    tableName: 'aeronave'
+    tableName: 'aeronave',
+    createdAt: false,
+    updatedAt: false,
 })
 
 class Aeronave extends Model {

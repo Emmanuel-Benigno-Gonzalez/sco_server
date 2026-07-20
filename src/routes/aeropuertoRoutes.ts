@@ -1,15 +1,25 @@
 import { Router } from 'express'
-import { createAeropuerto } from '../controllers/Aeropuerto.controller'
+import { createAeropuerto, getAeropuerto, getAeropuertoById } from '../controllers/Aeropuerto.controller'
 import { authenticate } from '../middleware/authValidation'
+import Aeropuerto from '../models/Aeropuerto.model'
+import { validateEntityExists, validateEntityNotExists } from '../middleware/indexValidation'
 
 const router = Router()
 
-router.get('/', (req, res)  => {
-    res.json('Desde GET')
-})
+router.get('/',
+    authenticate,
+    getAeropuerto
+)
+
+router.get('/:iata_aeropuerto',
+    authenticate,
+    validateEntityExists(Aeropuerto, 'iata_aeropuerto', 'Aeropuerto'),
+    getAeropuertoById
+)
 
 router.post('/',
-    authenticate,    
+    authenticate,
+    validateEntityNotExists(Aeropuerto, 'iata_aeropuerto', 'Aeropuerto'),    
     createAeropuerto
 )
 

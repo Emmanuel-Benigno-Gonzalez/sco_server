@@ -17,6 +17,7 @@ export const getOperacion = async (req: Request, res: Response) => {
         //res.json({ data: operacion })
     } catch (error) {
         console.log(error)
+        res.status(500).json({ message: 'Error al obtener la operación' });
     }
 
 }
@@ -34,6 +35,7 @@ export const getOperacionById = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.log(error)
+        res.status(500).json({ message: 'Error al obtener la operación' });
     }    
 }
 
@@ -50,6 +52,7 @@ export const getOperacionTokenL = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.log(error)
+        res.status(500).json({ message: 'Error al obtener la operación' });
     }    
 }
 
@@ -110,7 +113,7 @@ export const getOpsByDate = async (req: Request, res: Response) => {
     
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error interno del servidor.' });
+    res.status(500).json({ message: 'Error al obtener la operación' });
   }
 };
 
@@ -131,7 +134,7 @@ export const createOperacion = async (req: Request, res: Response) => {
         res.status(200).json({ message: "Registro creado exitosamente" });
     } catch (error) {
         console.log("Este es el error ",error)
-        res.status(404).json({ message: error.message });
+        res.status(500).json({ message: 'Error al crear la operación' });
     }
 }
 
@@ -217,6 +220,7 @@ export const deleteOperacion = async (req: Request, res: Response) => {
     
   } catch (error) {
     console.log(error)
+    res.status(500).json({ message: 'Error al eliminar la operación' });
   }
 
 }
@@ -233,6 +237,7 @@ export const getLlegadasPendientes = async (req: Request, res: Response) => {
     res.json({ data: operacion })
   } catch (error) {
     console.log(error)
+    res.status(500).json({ message: 'Error al obtener las llegadas pendientes' });
   }
 
 }
@@ -249,6 +254,7 @@ export const getSalidasPendientes = async (req: Request, res: Response) => {
     res.json({ data: operacion })
   } catch (error) {
     console.log(error)
+    res.status(500).json({ message: 'Error al obtener las operaciones' });
   }
 
 }
@@ -271,5 +277,6 @@ export const postUltimaLlegada = async (req: Request, res: Response) => {
 
   } catch (error) {
     console.log(error)
+    res.status(500).json({ message: 'Error al obtener la última llegada' });
   }
 }

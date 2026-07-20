@@ -8,6 +8,7 @@ export const getCompania = async (req: Request, res: Response) => {
         res.json({ data: compania })
     } catch (error) {
         console.log(error)
+        res.status(500).json({ message: 'Error al obtener los datos' })
     }
 
 }
@@ -19,5 +20,6 @@ export const createCompania = async (req: Request, res: Response) => {
         res.json({ data: compania })
     } catch (error) {
         console.log(error)
+        res.status(500).json({ message: 'Error al crear la compañía' })
     }
 }

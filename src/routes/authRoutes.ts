@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express'
-import { createAccount, login } from '../controllers/Auth.controller'
+import { createAccount, login, passwordTemporal } from '../controllers/Auth.controller'
 import { authValidators } from '../middleware/authValidation'
 import { handleInputErrors, validateEntityExists } from '../middleware/indexValidation'
 import Usuario from '../models/Usuario.model'
@@ -25,7 +25,12 @@ router.put('/', (req, res)  => {
     res.json('Desde PUT')
 })
 
-router.patch('/', (req, res)  => {
+
+router.patch('/passwordTemporal', 
+    passwordTemporal
+)
+
+router.patch('/cambioPassword', (req, res)  => {
     res.json('Desde PATCH')
 })
 

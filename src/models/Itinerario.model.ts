@@ -18,7 +18,9 @@ import Calificador from './Calificador.model'
 import { Op } from 'sequelize';
 
 @Table({
-    tableName: 'itinerario-comercial'
+    tableName: 'itinerario-comercial',
+    createdAt: false,
+    updatedAt: false,
 })
 
 class ItinerarioComercial extends Model {

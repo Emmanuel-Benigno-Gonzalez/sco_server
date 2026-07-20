@@ -29,8 +29,8 @@ router.get('/',
 )
 
 router.post('/',
-    operacionValidators,
     authenticate,
+    operacionValidators,
     handleInputErrors,
     validateEntityExists(Matricula, 'id_matricula', 'Matrícula'),
     validateEntityExists(Aeropuerto, 'iata_aeropuerto', 'Aeropuerto'),
@@ -46,8 +46,8 @@ router.post('/',
 )
 
 router.post('/itinerario', 
-    itinerarioValidators,
     authenticate,
+    itinerarioValidators,
     handleInputErrors,
     validateEntityExists(Aeropuerto, 'iata_aeropuerto', 'Aeropuerto'),
     validateEntityExists(Compania, 'id_compania', 'Aerolinea/FBO'),

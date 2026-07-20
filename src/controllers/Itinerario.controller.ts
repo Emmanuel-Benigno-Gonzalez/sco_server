@@ -14,6 +14,7 @@ export const getItinerario = async (req: Request, res: Response) => {
         //res.json({ data: operacion })
     } catch (error) {
         console.log(error)
+        res.status(500).json({ message: 'Error al obtener el itinerario' });
     }
 
 }
@@ -31,6 +32,7 @@ export const getItinerarioById = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.log(error)
+        res.status(500).json({ message: 'Error al obtener la operación' });
     }
     
 }
@@ -104,7 +106,7 @@ export const createItinerario = async (req: Request, res: Response) => {
         res.status(200).json({ message: "Registro creado exitosamente" });
     } catch (error) {
         console.log("Este es el error ",error)
-        res.status(404).json({ message: error.message });
+        res.status(500).json({ message: 'Error al crear el itinerario' });
     }
 }
 
@@ -138,6 +140,7 @@ export const deleteItinerario = async (req: Request, res: Response) => {
     
   } catch (error) {
     console.log(error)
+    res.status(500).json({ message: 'Error al eliminar la operación' });
   }
 
 }

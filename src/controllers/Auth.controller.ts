@@ -10,8 +10,8 @@ export const getUsuario = async (req: Request, res: Response) => {
         res.json({ data: usuario })
     } catch (error) {
         console.log(error)
+        res.status(500).json({ message: 'Error al obtener el usuario' });
     }
-
 }
 
 export const createAccount = async (req: Request, res: Response) => {
@@ -34,7 +34,7 @@ export const createAccount = async (req: Request, res: Response) => {
         res.status(200).json({ message: "Cuenta creada existosamente" });
     } catch (error) {
         console.log(error)
-        res.status(500).json({ error: 'Hubo un error' })
+        res.status(500).json({ message: 'Error al crear la cuenta' })
     }
 }
 
@@ -61,6 +61,53 @@ export const login = async (req: Request, res: Response) => {
         res.status(200).json(token);
     } catch (error) {
         console.log(error)
-        res.status(500).json({ error: 'Hubo un error' })
+        res.status(500).json({ message: 'Hubo un error al iniciar sesión' })
+    }
+}
+
+
+export const passwordTemporal = async (req: Request, res: Response) => {
+    try {
+        const { id_usuario, password } = req.body
+
+        const user = await Usuario.findByPk(id_usuario)
+        
+        if (!user) {
+            return res.status(404).json({ 
+                message: 'Usuario no encontrado' 
+            });
+        }
+
+        user.password = await hashpassword(password)
+        user.token_password = 1
+        await user.save()
+
+        res.status(200).json({ message: 'Contraseña de recuperación actualizada correctamente' });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: 'Hubo un error al iniciar sesión' })
+    }
+}
+
+export const updatePassword = async (req: Request, res: Response) => {
+    try {
+        const { id_usuario, password } = req.body
+
+        const user = await Usuario.findByPk(id_usuario)
+        
+        if (!user) {
+            return res.status(404).json({ 
+                message: 'Usuario no encontrado' 
+            });
+        }
+
+        user.password = await hashpassword(password)
+        user.token_password = 1
+        await user.save()
+
+        res.status(200).json({ message: 'Contraseña de recuperación actualizada correctamente' });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: 'Hubo un error al iniciar sesión' })
     }
 }

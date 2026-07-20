@@ -8,6 +8,7 @@ export const getCalificador = async (req: Request, res: Response) => {
         res.json({ data: calificador })
     } catch (error) {
         console.log(error)
+        res.status(500).json({ message: 'Error al obtener los datos' })
     }
 
 }
@@ -19,5 +20,6 @@ export const createCalificador = async (req: Request, res: Response) => {
         res.json({ data: calificador })
     } catch (error) {
         console.log(error)
+        res.status(500).json({ message: 'Error al crear el calificador' })
     }
 }

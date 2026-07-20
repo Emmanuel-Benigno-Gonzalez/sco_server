@@ -11,7 +11,9 @@ import Calificador from './Calificador.model'
 import Compania from './Compania.model'
 
 @Table({
-    tableName: 'matricula'
+    tableName: 'matricula',
+    createdAt: false,
+    updatedAt: false,
 })
 
 class Matricula extends Model {
@@ -42,17 +44,6 @@ class Matricula extends Model {
         allowNull: false
     })
     declare id_compania : string
-
-    @Column({
-        type: DataType.DATE(),
-        allowNull: false
-    })
-    declare fecha_registro: Date
-
-    @Column({
-        type: DataType.DATE()
-    })
-    declare fecha_modificacion: Date
 
     @BelongsTo(() => Aeronave)
     declare aeronave: Aeronave;
